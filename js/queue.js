@@ -42,18 +42,22 @@ module.exports = {
         cList[len] = new Array(2);
         cList[len][0] = rList[0][0];
         cList[len][1] = rList[0][1];
+        console.log(cList[len][0] + ' - ' + cList[len][1]);
+        rList.shift();
     },
     
-    markDone: function(user) {
+    markDoneU: function(user) {
         //Marks specific request as done by username
         let len = this.getLength('c');
         cList[len] = new Array(2);
         for (let i = 0; i < len; i++) {
-            if (rList[i][0] == user)
+            if (rList[i][0] == user) {
+                cList[len][0] = rList[i][0];
+                cList[len][1] = rList[i][1];
+                rList.splice(i, 1);
                 break;
+            }
         }
-        cList[len][0] = rList[i][0];
-        cList[len][1] = rList[i][1];
     },
     
     next: function() {
@@ -92,9 +96,16 @@ module.exports = {
         //Get's a requests place in the queue by username
     },
     
-    getValue: function(place, value) {
+    getValue: function(place, value, list) {
         //Get's a specific value (uname or req) by place
-        return rList[place][value];
+        if (list === 'r')
+            return rList[place][value];
+        else if (list === 'c')
+            return cList[place][value];
+        else if (list === 'd')
+            return dList[place][value];
+        else
+            return -1;
     },
     
     getLength: function(list) {

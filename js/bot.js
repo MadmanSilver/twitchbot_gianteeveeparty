@@ -25,21 +25,42 @@ client.on('message', (channel, tags, message, self) => {
             client.say(channel, `@${tags.username} hello.`);
         }
         if((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && (message.toLowerCase().includes('my') || message.toLowerCase().includes(' i ') || message.toLowerCase().includes('mah'))) {
-            client.say(channel, `@${tags.username} your request is ` + getPlace(tags.username) + ` places away.`);
+            client.say(channel, `@${tags.username} your request is ` + queue.getPlace(tags.username) + ` places away.`);
         }
         if (message.toLowerCase().includes('init') && message.toLowerCase().includes('list')) {
             queue.initQueue();
             client.say(channel, `@${tags.username} the list is ready!`);
         }
-        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('list')) {
+        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('rlist')) {
             client.say(channel, `The list is as follows:`);
 
             for (let i = 0; i < queue.getLength('r'); i++) {
-                client.say(channel, queue.getValue(i, 0) + ` - ` + queue.getValue(i, 1));
+                client.say(channel, queue.getValue(i, 0, 'r') + ` - ` + queue.getValue(i, 1, 'r'));
             }
+        }
+        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('clist')) {
+            client.say(channel, `The clist is as follows:`);
+
+            for (let i = 0; i < queue.getLength('c'); i++) {
+                console.log(queue.getValue(i, 0, 'c') + ' - ' + queue.getValue(i, 0, 'c'));
+                client.say(channel, queue.getValue(i, 0, 'c') + ` - ` + queue.getValue(i, 1, 'c'));
+            }
+        }
+        if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('my')) {
+            client.say(channel, `Your request has been marked as finished!`);
+            queue.markDoneU(`${tags.username}`);
+        } else if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request')) {
+            client.say(channel, `The current request has been marked as finished!`);
+            queue.markDone();
         }
 	}
     if(message.toLowerCase() === '*cuddles @gianteeveeparty*' || message.toLowerCase() === '*cuddles @gianteeveeparty *') {
         client.say(channel, `@${tags.username} I appreciate the cuddles.`);
+    }
+    if(message.toLowerCase().includes('konami code') || message.toLowerCase().includes('upupdowndownleftrightabstart')) {
+        client.say(channel, `:eyes:`);
+    }
+    if(message.toLowerCase().includes('@gianteeveeparty') && message.toLowerCase().includes('upupdowndownleftrightabstart')) {
+        client.say(channel, `RIP Kazuhisa Hashimoto`);
     }
 });
