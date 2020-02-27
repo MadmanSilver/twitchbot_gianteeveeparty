@@ -74,6 +74,12 @@ module.exports = {
     
     addRequest: function(user, req) {
         //Adds request to queue
+        let len = this.getLength('r');
+        if (len + this.getLength('d') + this.getLength('c') < limit) {
+            rList[len] = new Array(2);
+            rList[len][0] = user;
+            rList[len][1] = req;
+        }
     },
     
     removeRequest: function() {
