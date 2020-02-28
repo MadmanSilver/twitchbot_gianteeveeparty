@@ -11,7 +11,7 @@ const client = new tmi.Client({
 		username: 'gianteeveeparty',
 		password: 'oauth:5esvvxh80joqr8u0mamkioxjdyelpn'
 	},
-	channels: [ 'oakteaparty' ]
+	channels: [ 'madmansilver' ]
 });
 
 client.connect();
@@ -21,15 +21,21 @@ client.on('message', (channel, tags, message, self) => {
 	if(self) return;
 
 	if(message.toLowerCase().includes('@gianteeveeparty')) {
-		if(message.toLowerCase().includes('hi') || message.toLowerCase().includes('heya') || message.toLowerCase().includes('hello') || message.toLowerCase().includes('hiya') || message.toLowerCase().includes('hey')) {
+        message = message.toLowerCase().replace("@gianteeveeparty", "");
+        let other = message.substring(message.indexOf('@'), message.substring(message.indexOf('@')).indexOf(' '));
+		if (message.toLowerCase().includes('hi') || message.toLowerCase().includes('heya') || message.toLowerCase().includes('hello') || message.toLowerCase().includes('hiya') || message.toLowerCase().includes('hey')) {
             client.say(channel, `@${tags.username} hello.`);
         }
-        if((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && (message.toLowerCase().includes('my') || message.toLowerCase().includes(' i ') || message.toLowerCase().includes('mah'))) {
+        if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && (message.toLowerCase().includes('my') || message.toLowerCase().includes(' i ') || message.toLowerCase().includes('mah'))) {
             client.say(channel, `@${tags.username} your request is ` + queue.getPlace(tags.username) + ` places away.`);
         }
         if (message.toLowerCase().includes('init') && message.toLowerCase().includes('list')) {
             queue.initQueue();
             client.say(channel, `@${tags.username} the list is ready!`);
+        }
+        if (message.toLowerCase().includes('request') && message.toLowerCase().includes('i')) {
+            queue.addRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
+            client.say(channel, `@${tags.username} your request has been added!`);
         }
         if (message.toLowerCase().includes('show') && message.toLowerCase().includes('rlist')) {
             client.say(channel, `The list is as follows:`);
@@ -54,13 +60,13 @@ client.on('message', (channel, tags, message, self) => {
             queue.markDone();
         }
 	}
-    if(message.toLowerCase() === '*cuddles @gianteeveeparty*' || message.toLowerCase() === '*cuddles @gianteeveeparty *') {
+    if (message.toLowerCase() === '*cuddles @gianteeveeparty*' || message.toLowerCase() === '*cuddles @gianteeveeparty *') {
         client.say(channel, `@${tags.username} I appreciate the cuddles.`);
     }
-    if(message.toLowerCase().includes('konami code') || message.toLowerCase().includes('upupdowndownleftrightabstart')) {
+    if (message.toLowerCase().includes('konami code') || message.toLowerCase().includes('upupdowndownleftrightabstart')) {
         client.say(channel, `:eyes:`);
     }
-    if(message.toLowerCase().includes('@gianteeveeparty') && message.toLowerCase().includes('upupdowndownleftrightabstart')) {
+    if (message.toLowerCase().includes('@gianteeveeparty') && message.toLowerCase().includes('upupdowndownleftrightabstart')) {
         client.say(channel, `RIP Kazuhisa Hashimoto`);
     }
 });
