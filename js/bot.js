@@ -37,6 +37,10 @@ client.on('message', (channel, tags, message, self) => {
             queue.addRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@${tags.username} your request has been added!`);
         }
+        if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@')) {
+            queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
+            client.say(channel, `@${tags.username} your request has been added!`);
+        }
         if (message.toLowerCase().includes('show') && message.toLowerCase().includes('rlist')) {
             client.say(channel, `The list is as follows:`);
 
