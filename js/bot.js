@@ -26,8 +26,11 @@ client.on('message', (channel, tags, message, self) => {
 		if (message.toLowerCase().includes('hi') || message.toLowerCase().includes('heya') || message.toLowerCase().includes('hello') || message.toLowerCase().includes('hiya') || message.toLowerCase().includes('hey')) {
             client.say(channel, `@${tags.username} hello.`);
         }
-        if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && (message.toLowerCase().includes('my') || message.toLowerCase().includes(' i ') || message.toLowerCase().includes('mah'))) {
-            client.say(channel, `@${tags.username} your request is ` + queue.getPlace(tags.username) + ` places away.`);
+        if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && ((message.toLowerCase().includes('my') || message.toLowerCase().includes(' i ') || message.toLowerCase().includes('mah')))) {
+            client.say(channel, `@${tags.username} your request is #` + queue.getPlace(tags.username) + ` in line.`);
+        }
+        if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && (message.toLowerCase().includes('@'))) {
+            client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request is #` + queue.getPlace(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1)) + ` in line.`);
         }
         if (message.toLowerCase().includes('init') && message.toLowerCase().includes('list')) {
             queue.initQueue();
