@@ -88,10 +88,22 @@ module.exports = {
         dList[len] = new Array(2);
         dList[len][0] = rList[0][0];
         dList[len][1] = rList[0][1];
+        console.log(dList[len][0] + ' - ' + dList[len][1]);
+        rList.shift();
     },
     
-    removeRequest: function(user) {
+    removeRequestU: function(user) {
         //Removes request from queue by username
+        let len = this.getLength('d');
+        dList[len] = new Array(2);
+        for (let i = 0; i < len; i++) {
+            if (rList[i][0] == user) {
+                dList[len][0] = rList[i][0];
+                dList[len][1] = rList[i][1];
+                rList.splice(i, 1);
+                break;
+            }
+        }
     },
     
     editRequest: function(user, req) {
