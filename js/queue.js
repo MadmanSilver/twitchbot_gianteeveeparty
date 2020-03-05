@@ -108,6 +108,13 @@ module.exports = {
     
     editRequest: function(user, req) {
         //Changes request by username
+        let len = this.getLength('r');
+        for (let i = 0; i < len; i++) {
+            if (rList[i][0] == user) {
+                rList[i][1] = req;
+                break;
+            }
+        }
     },
     
     getPlace: function(user) {
