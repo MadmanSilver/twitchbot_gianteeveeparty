@@ -119,6 +119,12 @@ module.exports = {
     
     getPlace: function(user) {
         //Get's a requests place in the queue by username
+        let len = this.getLength('r');
+        for (let i = 0; i < len; i++) {
+            if (rList[i][0] == user) {
+                return i + 1;
+            }
+        }
     },
     
     getValue: function(place, value, list) {
