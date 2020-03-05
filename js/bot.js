@@ -37,7 +37,7 @@ client.on('message', (channel, tags, message, self) => {
             queue.addRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@${tags.username} your request has been added!`);
         }
-        if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@')) {
+        if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && !(message.toLowerCase().includes('complete'))) {
             queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added!`);
         }
@@ -56,9 +56,9 @@ client.on('message', (channel, tags, message, self) => {
                 client.say(channel, queue.getValue(i, 0, 'c') + ` - ` + queue.getValue(i, 1, 'c'));
             }
         }
-        if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('my')) {
-            client.say(channel, `Your request has been marked as finished!`);
-            queue.markDoneU(`${tags.username}`);
+        if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@')) {
+            queue.markDoneU(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1));
+            client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been marked as completed!`);
         } else if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request')) {
             client.say(channel, `The current request has been marked as finished!`);
             queue.markDone();
