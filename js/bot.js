@@ -33,13 +33,13 @@ client.on('message', (channel, tags, message, self) => {
             queue.initQueue();
             client.say(channel, `@${tags.username} the list is ready!`);
         }
-        if (message.toLowerCase().includes('request') && message.toLowerCase().includes('i')) {
+        if (message.toLowerCase().includes('request') && message.toLowerCase().includes('i') && !(message.toLowerCase().includes('@'))) {
             queue.addRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@${tags.username} your request has been added!`);
         }
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@')) {
             queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
-            client.say(channel, `@${tags.username} your request has been added!`);
+            client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added!`);
         }
         if (message.toLowerCase().includes('show') && message.toLowerCase().includes('rlist')) {
             client.say(channel, `The list is as follows:`);
