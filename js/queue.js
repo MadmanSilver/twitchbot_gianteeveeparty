@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('n-readlines');
 
-var limit = 40; //Max number of requests
+var limit = 4; //Max number of requests
 var rList = new Array(limit); //Request list
 var cList = new Array(limit); //Completed list
 var dList = new Array(limit); //Deleted list
@@ -28,7 +28,12 @@ module.exports = {
     
     slots: function() {
         //Returns the number of slots left
-        return limit - this.getLength('r');
+        return limit - (this.getLength('r') + this.getLength('c') + this.getLength('d'));
+    },
+    
+    getLimit: function() {
+        //Gets the request limit
+        return limit;
     },
     
     setLimit: function(lim) {
