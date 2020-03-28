@@ -11,7 +11,7 @@ const client = new tmi.Client({
 		username: 'gianteeveeparty',
 		password: 'oauth:5esvvxh80joqr8u0mamkioxjdyelpn'
 	},
-	channels: [ 'madmansilver' ]
+	channels: [ 'oakteaparty' ]
 });
 
 client.connect();
@@ -29,10 +29,10 @@ client.on('message', (channel, tags, message, self) => {
         if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && ((message.toLowerCase().includes('my') || message.toLowerCase().includes(' i ') || message.toLowerCase().includes('mah')))) {
             client.say(channel, `@${tags.username} your request is #` + queue.getPlace(tags.username) + ` in line.`);
         }
-        if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && (message.toLowerCase().includes('@'))) {
+        if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && (message.toLowerCase().includes('@')) && tags.mod) {
             client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request is #` + queue.getPlace(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1)) + ` in line.`);
         }
-        if (message.toLowerCase().includes('init') && message.toLowerCase().includes('list')) {
+        if (message.toLowerCase().includes('init') && message.toLowerCase().includes('list') && tags.mod) {
             queue.initQueue();
             client.say(channel, `@${tags.username} the list is ready!`);
         }
@@ -40,41 +40,57 @@ client.on('message', (channel, tags, message, self) => {
             queue.addRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@${tags.username} your request has been added!`);
         }
-        if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && !(message.toLowerCase().includes('complete')) && !(message.toLowerCase().includes('edit'))) {
+        if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && !(message.toLowerCase().includes('complete')) && !(message.toLowerCase().includes('edit')) && tags.mod) {
             queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added!`);
         }
-        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('rlist')) {
+        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('current')) {
+            client.say(channel, `The current request is: ` + queue.getValue(0, 0, 'r') + ` - ` + queue.getValue(0, 1, 'r'));
+        }
+        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('rlist') && tags.mod) {
             client.say(channel, `The list is as follows:`);
 
             for (let i = 0; i < queue.getLength('r'); i++) {
                 client.say(channel, queue.getValue(i, 0, 'r') + ` - ` + queue.getValue(i, 1, 'r'));
             }
         }
-        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('clist')) {
+        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('clist') && tags.mod) {
             client.say(channel, `The clist is as follows:`);
 
             for (let i = 0; i < queue.getLength('c'); i++) {
-                console.log(queue.getValue(i, 0, 'c') + ' - ' + queue.getValue(i, 0, 'c'));
                 client.say(channel, queue.getValue(i, 0, 'c') + ` - ` + queue.getValue(i, 1, 'c'));
             }
         }
-        if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@')) {
+        if (message.toLowerCase().includes('show') && message.toLowerCase().includes('dlist') && tags.mod) {
+            client.say(channel, `The dlist is as follows:`);
+
+            for (let i = 0; i < queue.getLength('d'); i++) {
+                client.say(channel, queue.getValue(i, 0, 'd') + ` - ` + queue.getValue(i, 1, 'd'));
+            }
+        }
+        if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && tags.mod) {
             queue.markDoneU(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1));
             client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been marked as completed!`);
-        } else if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request')) {
+        } else if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && tags.mod) {
             client.say(channel, `The current request has been marked as finished!`);
             queue.markDone();
+        }
+        if (message.toLowerCase().includes('delete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && tags.mod) {
+            queue.removeRequestU(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1));
+            client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been deleted!`);
+        } else if (message.toLowerCase().includes('delete') && message.toLowerCase().includes('request') && !(message.toLowerCase().includes('@')) && tags.mod) {
+            client.say(channel, `The current request has been deleted!`);
+            queue.removeRequest();
         }
         if (message.toLowerCase().includes('edit') && message.toLowerCase().includes('request') && message.toLowerCase().includes('my')) {
             queue.editRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@${tags.username}, your request has been edited!`);
-        } else if (message.toLowerCase().includes('edit') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@')) {
+        } else if (message.toLowerCase().includes('edit') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && tags.mod) {
             queue.editRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been edited!`);
         }
 	}
-    if (message.toLowerCase() === '*cuddles @gianteeveeparty*' || message.toLowerCase() === '*cuddles @gianteeveeparty *') {
+    if (message.toLowerCase() === '*cuddles*') {
         client.say(channel, `@${tags.username} I appreciate the cuddles.`);
     }
     if (message.toLowerCase().includes('konami code') || message.toLowerCase().includes('upupdowndownleftrightabstart')) {
