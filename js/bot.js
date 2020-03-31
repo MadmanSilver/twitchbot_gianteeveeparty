@@ -11,7 +11,7 @@ const client = new tmi.Client({
 		username: 'gianteeveeparty',
 		password: 'oauth:5esvvxh80joqr8u0mamkioxjdyelpn'
 	},
-	channels: [ 'madmansilver' ]
+	channels: [ 'madmansilver', 'oakteaparty' ]
 });
 
 client.connect();
@@ -119,6 +119,10 @@ client.on('message', (channel, tags, message, self) => {
         if (message.toLowerCase().includes('add') && message.toLowerCase().includes('slot') && (tags.mod || channel.replace('#', '') == tags.username)) {
             queue.setLimit(queue.getLimit() + 1);
             client.say(channel, `@${tags.username} I have added one more slot!`);
+        }
+        if (message.toLowerCase().includes('skip') && (tags.mod || channel.replace('#', '') == tags.username)) {
+            queue.skip();
+            client.say(channel, `@${tags.username} I have moved the current request to the end.`);
         }
 	}
     if (message.toLowerCase() === '*cuddles*') {

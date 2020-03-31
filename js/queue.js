@@ -65,16 +65,13 @@ module.exports = {
         }
     },
     
-    next: function() {
-        //Skips to next item in the queue
-    },
-    
-    prev: function() {
-        //Skips to previous item in the queue
-    },
-    
-    jump: function(user) {
-        //Jumps to a specific request in the queue by username
+    skip: function() {
+        //Skips the current item in the queue, placing it at the end
+        let len = rList.length;
+        rList.push(new Array(2));
+        rList[len][0] = rList[0][0];
+        rList[len][1] = rList[0][1];
+        rList.shift();
     },
     
     addRequest: function(user, req) {
