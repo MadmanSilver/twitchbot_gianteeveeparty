@@ -135,3 +135,7 @@ client.on('message', (channel, tags, message, self) => {
         client.say(channel, `RIP Kazuhisa Hashimoto`);
     }
 });
+
+var myInt = setInterval(function () {
+    client.say('oakteaparty', `Hey everyone! It's community day which means Oak is taking drawing requests! If you would like Oak to draw you something, just type '@GiantEeveeParty I request ____' and fill in the blank. There is ${queue.slots()} slots left.`);
+}, 60000 * 15);
