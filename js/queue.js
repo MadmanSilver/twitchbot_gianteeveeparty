@@ -1,4 +1,3 @@
-const fs = require('fs');
 const readline = require('n-readlines');
 
 var limit = 4; //Max number of requests
@@ -10,17 +9,10 @@ var liner = new readline('../list.txt');
 module.exports = {
     initQueue: function() {
         //Read list from file
-        let line = "";
-        let uname = "";
-        let req = "";
-        let i = 0;
+        let line;
         while (line = liner.next()) {
             line = line.toString();
-            uname = line.substring(0, line.indexOf("/"));
-            req = line.substring(line.indexOf("/") + 1, line.length);
-    
-            rList.push([uname, req]);
-            i++;
+            rList.push([line.substring(0, line.indexOf("/")), line.substring(line.indexOf("/") + 1, line.length)]);
         }
     },
     
@@ -41,23 +33,15 @@ module.exports = {
     
     markDone: function() {
         //Marks current request as done
-        let len = cList.length;
-        cList[len] = new Array(2);
-        cList[len][0] = rList[0][0];
-        cList[len][1] = rList[0][1];
-        console.log(cList[len][0] + ' - ' + cList[len][1]);
-        rList.shift();
+        cList.push(rList.shift());
     },
     
     markDoneU: function(user) {
         //Marks specific request as done by username
-        let len = cList.length;
-        cList[len] = new Array(2);
+        let len = rList.length;
         for (let i = 0; i < len; i++) {
             if (rList[i][0] == user) {
-                cList[len][0] = rList[i][0];
-                cList[len][1] = rList[i][1];
-                rList.splice(i, 1);
+                cList.push(rList.splice(i, 1)[0]);
                 break;
             }
         }
@@ -65,40 +49,21 @@ module.exports = {
     
     skip: function() {
         //Skips the current item in the queue, placing it at the end
-        let len = rList.length;
-        rList.push(new Array(2));
-        rList[len][0] = rList[0][0];
-        rList[len][1] = rList[0][1];
-        rList.shift();
+        rList.push(rList.shift());
     },
     
     addRequest: function(user, req) {
         //Adds request to queue
-        let len = rList.length;
-        if (len + dList.length + cList.length < limit) {
-            rList[len] = new Array(2);
-            rList[len][0] = user;
-            rList[len][1] = req;
+        if (rList.length + dList.length + cList.length < limit) {
+            rList.push([user, req]);
         }
     },
     
-    removeRequest: function() {
-        //Removes current request from queue
-        let len = rList.length;
-        dList[len] = new Array(2);
-        dList[len][0] = rList[0][0];
-        dList[len][1] = rList[0][1];
-        rList.shift();
-    },
-    
-    removeRequestU: function(user) {
+    removeRequest: function(user) {
         //Removes request from queue by username
-        dList[len] = new Array(2);
-        for (let i = 0; i < dList.length; i++) {
+        for (let i = 0; i < rList.length; i++) {
             if (rList[i][0] == user) {
-                dList[len][0] = rList[i][0];
-                dList[len][1] = rList[i][1];
-                rList.splice(i, 1);
+                dList.push(rList.splice(i, 1)[0]);
                 break;
             }
         }
