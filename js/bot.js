@@ -37,11 +37,13 @@ client.on('message', (channel, tags, message, self) => {
             client.say(channel, `@${tags.username} the list is ready!`);
         }
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('i') && !(message.toLowerCase().includes('@')) && !(message.toLowerCase().includes('delete')) && !(message.toLowerCase().includes('edit'))) {
-            if (queue.slots() > 0) {
+            if (queue.slots() > 0 && !(queue.hasReqd(tags.username))) {
                 queue.addRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
                 client.say(channel, `@${tags.username} your request has been added! (@oakteaparty)`);
-            } else {
+            } else if (!(queue.hasReqd(tags.username))) {
                 client.say(channel, `@${tags.username} Sorry, the request queue is full!`);
+            } else {
+                client.say(channel, `@${tags.username} Sorry, you have already submitted a request! If you would like to change it, just say '@GiantEeveeParty edit my request ____'.`);
             }
         }
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && !(message.toLowerCase().includes('complete')) && !(message.toLowerCase().includes('delete')) && !(message.toLowerCase().includes('edit')) && (tags.mod || channel.replace('#', '') == tags.username)) {

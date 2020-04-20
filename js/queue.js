@@ -112,5 +112,21 @@ module.exports = {
         } else {
             return -1;
         }
+    },
+
+    hasReqd: function(user) {
+        let i;
+
+        for (i = 0; i < rList.length; i++) {
+            if (rList[i][0] == user) {
+                return 1;
+            }
+        }
+        for (i = 0; i < cList.length; i++) {
+            if (cList[i][0] == user) {
+                return 1;
+            }
+        }
+        return 0;
     }
 };
