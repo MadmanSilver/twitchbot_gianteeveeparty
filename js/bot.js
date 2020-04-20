@@ -23,7 +23,7 @@ client.on('message', (channel, tags, message, self) => {
 	if(message.toLowerCase().includes('@gianteeveeparty')) {
         message = message.toLowerCase().replace("@gianteeveeparty", "");
         let other = message.substring(message.indexOf('@'), message.substring(message.indexOf('@')).indexOf(' '));
-		if (message.toLowerCase().includes('hi') || message.toLowerCase().includes('heya') || message.toLowerCase().includes('hello') || message.toLowerCase().includes('hiya') || message.toLowerCase().includes('hey')) {
+		if (message.toLowerCase().includes(' hi ') || message.toLowerCase().includes('heya') || message.toLowerCase().includes('hello') || message.toLowerCase().includes('hiya') || message.toLowerCase().includes('hey')) {
             client.say(channel, `@${tags.username} hello.`);
         }
         if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && ((message.toLowerCase().includes('my') || message.toLowerCase().includes(' i ') || message.toLowerCase().includes('mah')))) {
