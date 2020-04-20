@@ -39,7 +39,7 @@ client.on('message', (channel, tags, message, self) => {
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('i') && !(message.toLowerCase().includes('@')) && !(message.toLowerCase().includes('delete')) && !(message.toLowerCase().includes('edit'))) {
             if (queue.slots() > 0) {
                 queue.addRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
-                client.say(channel, `@${tags.username} your request has been added!`);
+                client.say(channel, `@${tags.username} your request has been added! (@oakteaparty)`);
             } else {
                 client.say(channel, `@${tags.username} Sorry, the request queue is full!`);
             }
@@ -47,7 +47,7 @@ client.on('message', (channel, tags, message, self) => {
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && !(message.toLowerCase().includes('complete')) && !(message.toLowerCase().includes('delete')) && !(message.toLowerCase().includes('edit')) && (tags.mod || channel.replace('#', '') == tags.username)) {
             if (queue.slots() > 0) {
                 queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
-                client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added!`);
+                client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added! (@oakteaparty)`);
             } else {
                 client.say(channel, `@${tags.username} Sorry, the request queue is full!`);
             }
