@@ -114,7 +114,7 @@ client.on('message', (channel, tags, message, self) => {
             client.say(channel, `@${tags.username} the current limit is ${queue.getLimit()}!`);
         }
         if (message.toLowerCase().includes('slots') && message.toLowerCase().includes('left')) {
-            client.say(channel, `@${tags.username} there are ${queue.slots()} remaining!`);
+            client.say(channel, `@${tags.username} there are ${queue.slots()} slots remaining!`);
         }
         if (message.toLowerCase().includes('add') && message.toLowerCase().includes('slot') && (tags.mod || channel.replace('#', '') == tags.username)) {
             queue.setLimit(queue.getLimit() + 1);

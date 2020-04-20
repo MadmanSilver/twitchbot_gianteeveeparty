@@ -1,6 +1,6 @@
 const readline = require('n-readlines');
 
-var limit = 4; //Max number of requests
+var limit = 20; //Max number of requests
 var rList = new Array(); //Request list
 var cList = new Array(); //Completed list
 var dList = new Array(); //Deleted list
