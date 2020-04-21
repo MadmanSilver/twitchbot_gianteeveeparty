@@ -126,6 +126,10 @@ client.on('message', (channel, tags, message, self) => {
             queue.skip();
             client.say(channel, `@${tags.username} I have moved the current request to the end.`);
         }
+        if (message.toLowerCase().includes('save') && (tags.mod || channel.replace('#', '') == tags.username)) {
+            queue.saveQueue();
+            client.say(channel, `@${tags.username} I have saved the queue.`);
+        }
 	}
     if (message.toLowerCase() === '*cuddles*') {
         client.say(channel, `@${tags.username} I appreciate the cuddles.`);

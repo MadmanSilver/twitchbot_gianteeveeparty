@@ -1,4 +1,5 @@
 const readline = require('n-readlines');
+const fs = require('fs');
 
 var limit = 20; //Max number of requests
 var rList = new Array(); //Request list
@@ -128,5 +129,18 @@ module.exports = {
             }
         }
         return 0;
+    },
+
+    saveQueue: function() {
+        let str = "";
+
+        for (let i = 0; i < rList.length; i++) {
+            str += rList[i][0] + '/' + rList[i][1] + '\n';
+        }
+
+        fs.writeFile('../list.txt', str, (err) => {
+            if (err) throw err;
+            console.log('The file has been saved!');
+        });
     }
 };
