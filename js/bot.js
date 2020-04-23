@@ -22,7 +22,9 @@ client.on('message', (channel, tags, message, self) => {
 
 	if(message.toLowerCase().includes('@gianteeveeparty')) {
         message = message.toLowerCase().replace("@gianteeveeparty", "");
-        let other = message.substring(message.indexOf('@'), message.substring(message.indexOf('@')).indexOf(' '));
+        if (message.toLowerCase().includes('help')) {
+            client.say(channel, `@${tags.username} Hello! I'm Giant Eevee! I manage requests on community day! Just get my attention with @GiantEeveeParty and tell me what you want! For example, '@GiantEeveeParty I request oak & eevee hugs' would tell me to add your request 'oak & eevee hugs' to the queue. I can also tell your place in the queue, edit your request, tell the current request, and give you cuddles! Please keep commands simple as I'm still learning.`);
+        }
 		if (message.toLowerCase().includes(' hi ') || message.toLowerCase().includes('heya') || message.toLowerCase().includes('hello') || message.toLowerCase().includes('hiya') || message.toLowerCase().includes('hey')) {
             client.say(channel, `@${tags.username} hello.`);
         }
@@ -203,5 +205,5 @@ client.on('message', (channel, tags, message, self) => {
 });
 
 var myInt = setInterval(function () {
-    client.say('oakteaparty', `Hey everyone! It's community day which means Oak is taking drawing requests! If you would like Oak to draw you something, just type '@GiantEeveeParty I request ____' and fill in the blank. There is ${queue.slots()} slots left.`);
+    client.say('oakteaparty', `Hey everyone! It's community day which means Oak is taking drawing requests! If you would like Oak to draw you something, just type '@GiantEeveeParty I request ____' and fill in the blank or ask me for help if you need anything else. There are ${queue.slots()} slot(s) left.`);
 }, 60000 * 15);
