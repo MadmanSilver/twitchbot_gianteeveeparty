@@ -30,11 +30,19 @@ client.on('message', (channel, tags, message, self) => {
             client.say(channel, `@${tags.username} your request is #` + queue.getPlace(tags.username) + ` in line.`);
         }
         if ((message.toLowerCase().includes('place') || message.toLowerCase().includes('spot') || message.toLowerCase().includes('line') || message.toLowerCase().includes('queue')) && (message.toLowerCase().includes('@')) && (tags.mod || channel.replace('#', '') == tags.username)) {
-            client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request is #` + queue.getPlace(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1)) + ` in line.`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request is #` + queue.getPlace(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1)) + ` in line.`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         }
         if (message.toLowerCase().includes('init') && message.toLowerCase().includes('list') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            queue.initQueue();
-            client.say(channel, `@${tags.username} the list is ready!`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                queue.initQueue();
+                client.say(channel, `@${tags.username} the list is ready!`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         }
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('i') && !(message.toLowerCase().includes('@')) && !(message.toLowerCase().includes('delete')) && !(message.toLowerCase().includes('edit'))) {
             if (queue.slots() > 0 && !(queue.hasReqd(tags.username))) {
@@ -47,69 +55,109 @@ client.on('message', (channel, tags, message, self) => {
             }
         }
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && !(message.toLowerCase().includes('complete')) && !(message.toLowerCase().includes('delete')) && !(message.toLowerCase().includes('edit')) && (tags.mod || channel.replace('#', '') == tags.username)) {
-            if (queue.slots() > 0) {
-                queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
-                client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added! (@oakteaparty)`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                if (queue.slots() > 0) {
+                    queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
+                    client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added! (@oakteaparty)`);
+                } else {
+                    client.say(channel, `@${tags.username} Sorry, the request queue is full!`);
+                }
             } else {
-                client.say(channel, `@${tags.username} Sorry, the request queue is full!`);
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
             }
         }
         if (message.toLowerCase().includes('show') && message.toLowerCase().includes('current')) {
             client.say(channel, `The current request is: ` + queue.getValue(0, 0, 'r') + ` - ` + queue.getValue(0, 1, 'r'));
         }
         if (message.toLowerCase().includes('show') && message.toLowerCase().includes('rlist') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            client.say(channel, `The list is as follows:`);
-
-            for (let i = 0; i < queue.getLength('r'); i++) {
-                client.say(channel, queue.getValue(i, 0, 'r') + ` - ` + queue.getValue(i, 1, 'r'));
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                client.say(channel, `The list is as follows:`);
+    
+                for (let i = 0; i < queue.getLength('r'); i++) {
+                    client.say(channel, queue.getValue(i, 0, 'r') + ` - ` + queue.getValue(i, 1, 'r'));
+                }
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
             }
         }
         if (message.toLowerCase().includes('show') && message.toLowerCase().includes('clist') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            client.say(channel, `The clist is as follows:`);
-
-            for (let i = 0; i < queue.getLength('c'); i++) {
-                client.say(channel, queue.getValue(i, 0, 'c') + ` - ` + queue.getValue(i, 1, 'c'));
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                client.say(channel, `The clist is as follows:`);
+    
+                for (let i = 0; i < queue.getLength('c'); i++) {
+                    client.say(channel, queue.getValue(i, 0, 'c') + ` - ` + queue.getValue(i, 1, 'c'));
+                }
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
             }
         }
         if (message.toLowerCase().includes('show') && message.toLowerCase().includes('dlist') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            client.say(channel, `The dlist is as follows:`);
-
-            for (let i = 0; i < queue.getLength('d'); i++) {
-                client.say(channel, queue.getValue(i, 0, 'd') + ` - ` + queue.getValue(i, 1, 'd'));
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                client.say(channel, `The dlist is as follows:`);
+    
+                for (let i = 0; i < queue.getLength('d'); i++) {
+                    client.say(channel, queue.getValue(i, 0, 'd') + ` - ` + queue.getValue(i, 1, 'd'));
+                }
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
             }
         }
         if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            queue.markDoneU(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1));
-            client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been marked as completed!`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                queue.markDoneU(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1));
+                client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been marked as completed!`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         } else if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            client.say(channel, `The current request has been marked as finished!`);
-            queue.markDone();
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                client.say(channel, `The current request has been marked as finished!`);
+                queue.markDone();
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         }
         if (message.toLowerCase().includes('delete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            queue.removeRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1));
-            client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been deleted!`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                queue.removeRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1));
+                client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been deleted!`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         } else if (message.toLowerCase().includes('delete') && message.toLowerCase().includes('request') && !(message.toLowerCase().includes('@')) && (tags.mod || channel.replace('#', '') == tags.username)) {
-            queue.removeRequest(tags.username);
-            client.say(channel, `The current request has been deleted!`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                queue.removeRequest(tags.username);
+                client.say(channel, `The current request has been deleted!`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         }
         if (message.toLowerCase().includes('edit') && message.toLowerCase().includes('request') && message.toLowerCase().includes('my')) {
             queue.editRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
             client.say(channel, `@${tags.username}, your request has been edited!`);
         } else if (message.toLowerCase().includes('edit') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            queue.editRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
-            client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been edited!`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                queue.editRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
+                client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been edited!`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         }
         if (message.toLowerCase().includes('set') && message.toLowerCase().includes('limit') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            for (var i = 0; i < message.length; i++) {
-                if (message.charAt(i) >= '0' && message.charAt(i) <= '9') {
-                    queue.setLimit(parseInt(message.substring(message.indexOf(message.charAt(i)))));
-                    break;
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                for (var i = 0; i < message.length; i++) {
+                    if (message.charAt(i) >= '0' && message.charAt(i) <= '9') {
+                        queue.setLimit(parseInt(message.substring(message.indexOf(message.charAt(i)))));
+                        break;
+                    }
                 }
-            }
-            if (i != message.length) {
-                client.say(channel, `@${tags.username} the limit has been set to ${queue.getLimit()}!`);
+                if (i != message.length) {
+                    client.say(channel, `@${tags.username} the limit has been set to ${queue.getLimit()}!`);
+                } else {
+                    client.say(channel, `@${tags.username} did you forget to put a number in that message?`);
+                }
             } else {
-                client.say(channel, `@${tags.username} did you forget to put a number in that message?`);
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
             }
         }
         if (!(message.toLowerCase().includes('set')) && message.toLowerCase().includes('limit')) {
@@ -119,16 +167,28 @@ client.on('message', (channel, tags, message, self) => {
             client.say(channel, `@${tags.username} there are ${queue.slots()} slots remaining!`);
         }
         if (message.toLowerCase().includes('add') && message.toLowerCase().includes('slot') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            queue.setLimit(queue.getLimit() + 1);
-            client.say(channel, `@${tags.username} I have added one more slot!`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                queue.setLimit(queue.getLimit() + 1);
+                client.say(channel, `@${tags.username} I have added one more slot!`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         }
         if (message.toLowerCase().includes('skip') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            queue.skip();
-            client.say(channel, `@${tags.username} I have moved the current request to the end.`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                queue.skip();
+                client.say(channel, `@${tags.username} I have moved the current request to the end.`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         }
         if (message.toLowerCase().includes('save') && (tags.mod || channel.replace('#', '') == tags.username)) {
-            queue.saveQueue();
-            client.say(channel, `@${tags.username} I have saved the queue.`);
+            if (tags.mod || channel.replace('#', '') == tags.username) {
+                queue.saveQueue();
+                client.say(channel, `@${tags.username} I have saved the queue.`);
+            } else {
+                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+            }
         }
 	}
     if (message.toLowerCase() === '*cuddles*') {
