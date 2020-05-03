@@ -58,10 +58,9 @@ client.on('message', (channel, tags, message, self) => {
         }
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && !(message.toLowerCase().includes('complete')) && !(message.toLowerCase().includes('delete')) && !(message.toLowerCase().includes('edit')) && (tags.mod || channel.replace('#', '') == tags.username)) {
             if (tags.mod || channel.replace('#', '') == tags.username) {
-                if (queue.slots() > 0) {
-                    queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
-                    client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added! (@oakteaparty)`);
-                } else {
+                queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
+                client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added! (@oakteaparty)`);
+                if (queue.slots() < 1) {
                     client.say(channel, `@${tags.username} Sorry, the request queue is full!`);
                 }
             } else {
@@ -206,5 +205,7 @@ client.on('message', (channel, tags, message, self) => {
 
 var myInt = setInterval(function () {
     queue.saveQueue();
-    client.say('oakteaparty', `Hey everyone! It's community day which means Oak is taking drawing requests! If you would like Oak to draw you something, just type '@GiantEeveeParty I request ____' and fill in the blank or ask me for help if you need anything else. There are ${queue.slots()} slot(s) left.`);
+    if (queue.slots() > 0) {
+        client.say('oakteaparty', `Hey everyone! It's community day which means Oak is taking drawing requests! If you would like Oak to draw you something, just type '@GiantEeveeParty I request ____' and fill in the blank or ask me for help if you need anything else. There are ${queue.slots()} slot(s) left.`);
+    }
 }, 60000 * 15);
