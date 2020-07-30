@@ -5,12 +5,13 @@ var limit = 20; //Max number of requests
 var rList = new Array(); //Request list
 var cList = new Array(); //Completed list
 var dList = new Array(); //Deleted list
-var liner = new readline('../list.txt');
 
 module.exports = {
     initQueue: function() {
         //Read list from file
         let line;
+        let liner = new readline('../list.txt');
+        rList = new Array();
         while (line = liner.next()) {
             line = line.toString();
             rList.push([line.substring(0, line.indexOf("/")), line.substring(line.indexOf("/") + 1, line.length)]);
