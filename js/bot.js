@@ -22,6 +22,7 @@ client.on('message', (channel, tags, message, self) => {
 
 	if(message.toLowerCase().includes('@gianteeveeparty')) {
         message = message.toLowerCase().replace("@gianteeveeparty", "");
+        queue.recCom(message);
         if (message.toLowerCase().includes('help')) {
             client.say(channel, `@${tags.username} Hello! I'm Giant Eevee! I manage requests on community day! Just get my attention with @GiantEeveeParty and tell me what you want! For example, '@GiantEeveeParty I request oak & eevee hugs' would tell me to add your request 'oak & eevee hugs' to the queue. I can also tell your place in the queue, edit your request, tell the current request, and give you cuddles! Please keep commands simple as I'm still learning.`);
         }
@@ -206,6 +207,6 @@ client.on('message', (channel, tags, message, self) => {
 var myInt = setInterval(function () {
     queue.saveQueue();
     if (queue.slots() > 0) {
-        client.say('oakteaparty', `Hey everyone! It's community day which means Oak is taking drawing requests! If you would like Oak to draw you something, just type '@GiantEeveeParty I request ____' and fill in the blank or ask me for help if you need anything else. There are ${queue.slots()} slot(s) left.`);
+        client.say('oakteaparty', `Hey everyone! It's community day which means Oak is taking drawing requests! If you would like Oak to draw you something, just type '@GiantEeveeParty I request ____' and fill in the blank or ask me for help if you need anything else. There are ${queue.slots()} spot(s) left.`);
     }
 }, 60000 * 15);
