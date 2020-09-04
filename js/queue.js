@@ -146,12 +146,14 @@ module.exports = {
     },
 
     recCom: function(msg) {
-        str = fs.readFile('../log.txt', (err, data) => {
+        let str = "";
+        fs.readFile('../log.txt', (err, data) => {
             if (err) throw err;
-        }) + '\n' + msg;
-        fs.writeFile('../log.txt', str, (err) => {
-            if (err) throw err;
-            console.log('The command has been saved!');
+            
+            fs.writeFile('../log.txt', data + '\n' + msg, (err) => {
+                if (err) throw err;
+                console.log('The command has been saved!');
+            });
         });
     }
 };
