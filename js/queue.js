@@ -1,7 +1,7 @@
 const readline = require('n-readlines');
 const fs = require('fs');
 
-var limit = 30; //Max number of requests
+var limit = 25; //Max number of requests
 var rList = new Array(); //Request list
 var cList = new Array(); //Completed list
 var dList = new Array(); //Deleted list

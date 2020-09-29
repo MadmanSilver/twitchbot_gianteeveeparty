@@ -18,7 +18,7 @@ client.connect();
 
 client.on('message', (channel, tags, message, self) => {
 	// Ignore echoed messages.
-	if(self) return;
+    if(self) return;
 
 	if(message.toLowerCase().includes('@gianteeveeparty')) {
         message = message.toLowerCase().replace("@gianteeveeparty", "");
@@ -48,11 +48,11 @@ client.on('message', (channel, tags, message, self) => {
             }
         }
         if (message.toLowerCase().includes('request') && message.toLowerCase().includes('i') && !(message.toLowerCase().includes('@')) && !(message.toLowerCase().includes('delete')) && !(message.toLowerCase().includes('edit'))) {
-            if (queue.slots() > 0 && !(queue.hasReqd(tags.username))) {
+            if ((queue.slots() > 0 || tags.subscriber || tags.badges.vip) && !(queue.hasReqd(tags.username))) {
                 queue.addRequest(tags.username, message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
                 client.say(channel, `@${tags.username} your request has been added! (@oakteaparty)`);
             } else if (!(queue.hasReqd(tags.username))) {
-                client.say(channel, `@${tags.username} Sorry, the request queue is full!`);
+                client.say(channel, `@${tags.username} Sorry, the request queue is full. Subscribers can request even when the queue is full!`);
             } else {
                 client.say(channel, `@${tags.username} Sorry, you have already submitted a request! If you would like to change it, just say '@GiantEeveeParty edit my request ____'.`);
             }
