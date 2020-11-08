@@ -56,9 +56,7 @@ module.exports = {
     
     addRequest: function(user, req) {
         //Adds request to queue
-        if (rList.length + dList.length + cList.length < limit) {
-            rList.push([user, req]);
-        }
+        rList.push([user, req]);
     },
     
     removeRequest: function(user) {
