@@ -61,11 +61,8 @@ client.on('message', (channel, tags, message, self) => {
             if (tags.mod || channel.replace('#', '') == tags.username) {
                 queue.addRequest(message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1), message.substring(message.indexOf('request')).substring(message.substring(message.indexOf('request')).indexOf(' ') + 1));
                 client.say(channel, `@` + message.substring(message.indexOf('@') + 1, message.substring(message.indexOf('@')).indexOf(' ') + 1) + `'s request has been added! (@oakteaparty)`);
-                if (queue.slots() < 1) {
-                    client.say(channel, `@${tags.username} Sorry, the request queue is full!`);
-                }
             } else {
-                client.say(channel, `@${tags.username} you do not have permission to use this command.`);
+                client.say(channel, `@${tags.username} you do not have permission to add requests for others.`);
             }
         }
         if (message.toLowerCase().includes('complete') && message.toLowerCase().includes('request') && message.toLowerCase().includes('@') && (tags.mod || channel.replace('#', '') == tags.username)) {
