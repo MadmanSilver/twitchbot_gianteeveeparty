@@ -10,11 +10,25 @@ module.exports = {
     initQueue: function() {
         //Read list from file
         let line;
-        let liner = new readline('../list.txt');
+        let liner = new readline('../rlist.txt');
         rList = new Array();
         while (line = liner.next()) {
             line = line.toString();
             rList.push([line.substring(0, line.indexOf("/")), line.substring(line.indexOf("/") + 1, line.length)]);
+        }
+
+        liner = new readline('../clist.txt');
+        cList = new Array();
+        while (line = liner.next()) {
+            line = line.toString();
+            cList.push([line.substring(0, line.indexOf("/")), line.substring(line.indexOf("/") + 1, line.length)]);
+        }
+
+        liner = new readline('../dlist.txt');
+        dList = new Array();
+        while (line = liner.next()) {
+            line = line.toString();
+            dList.push([line.substring(0, line.indexOf("/")), line.substring(line.indexOf("/") + 1, line.length)]);
         }
     },
     
@@ -137,9 +151,31 @@ module.exports = {
             str += rList[i][0] + '/' + rList[i][1] + '\n';
         }
 
-        fs.writeFile('../list.txt', str, (err) => {
+        fs.writeFile('../rlist.txt', str, (err) => {
             if (err) throw err;
-            console.log('The file has been saved!');
+            console.log('The rlist file has been saved!');
+        });
+
+        str = "";
+
+        for (let i = 0; i < cList.length; i++) {
+            str += cList[i][0] + '/' + cList[i][1] + '\n';
+        }
+
+        fs.writeFile('../clist.txt', str, (err) => {
+            if (err) throw err;
+            console.log('The clist file has been saved!');
+        });
+
+        str = "";
+
+        for (let i = 0; i < dList.length; i++) {
+            str += dList[i][0] + '/' + dList[i][1] + '\n';
+        }
+
+        fs.writeFile('../dlist.txt', str, (err) => {
+            if (err) throw err;
+            console.log('The dlist file has been saved!');
         });
     },
 
