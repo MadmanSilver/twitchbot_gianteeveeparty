@@ -34,7 +34,13 @@ module.exports = {
     
     slots: function() {
         //Returns the number of slots left
-        return limit - (rList.length + cList.length + dList.length);
+        let slots = limit - (rList.length + cList.length + dList.length);
+
+        if (slots < 1) {
+            return 0;
+        }
+
+        return slots;
     },
     
     getLimit: function() {
